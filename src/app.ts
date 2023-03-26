@@ -1,9 +1,9 @@
-import { DirExecuter } from "./commands/dir/dir.executor";
-import { ConsoleLogger } from "./out/console-logger/console-logger";
+import { PromptService } from "./core/prompt/prompt.service";
 
-export class App {
+class App {
   async run() {
-    new DirExecuter(ConsoleLogger.getInstance()).execute();
+    const res = await new PromptService().input<number>("Число", "number");
+    console.log(res);
   }
 }
 

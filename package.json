@@ -9,10 +9,10 @@
   "author": "dr_stein",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^9.1.5"
-  },
+		"inquirer": "^8.2.0"
+	},
 	"devDependencies": {
-		"@types/inquirer": "^9.0.3",
+		"@types/inquirer": "^8.2.0",
 		"@types/node": "^18.12.1"
 	}
 }

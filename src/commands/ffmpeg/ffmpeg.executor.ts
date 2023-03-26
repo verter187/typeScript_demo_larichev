@@ -1,11 +1,11 @@
-import { FileService } from "./../../core/files/file.service";
 import { ChildProcessWithoutNullStreams, spawn } from "child_process";
 import { CommandExecutor } from "../../core/executor/command.executor";
+import { FileService } from "../../core/files/file.service";
 import { IStreamLogger } from "../../core/handlers/stream-logger.interface";
-import { ICommandExecFfmpeg, IFfmpegInput } from "./ffmpeg.type";
+import { StreamHandler } from "../../core/handlers/stream.handler";
 import { PromptService } from "../../core/prompt/prompt.service";
 import { FfmpegBuilder } from "./ffmpeg.builder";
-import { StreamHandler } from "../../core/handlers/stream.handler";
+import { ICommandExecFfmpeg, IFfmpegInput } from "./ffmpeg.types";
 
 export class FfmpegExecutor extends CommandExecutor<IFfmpegInput> {
   private fileService: FileService = new FileService();
@@ -22,10 +22,7 @@ export class FfmpegExecutor extends CommandExecutor<IFfmpegInput> {
       "Путь до файла",
       "input"
     );
-    const name = await this.promptService.input<string>(
-      "Путь до файла",
-      "input"
-    );
+    const name = await this.promptService.input<string>("Имя", "input");
     return { width, height, path, name };
   }
 
@@ -42,13 +39,14 @@ export class FfmpegExecutor extends CommandExecutor<IFfmpegInput> {
       .output(output);
     return { command: "ffmpeg", args, output };
   }
+
   protected spawn({
     output,
-    command,
+    command: commmand,
     args,
   }: ICommandExecFfmpeg): ChildProcessWithoutNullStreams {
     this.fileService.deleteFileIfExists(output);
-    return spawn(command, args);
+    return spawn(commmand, args);
   }
 
   protected processStream(
